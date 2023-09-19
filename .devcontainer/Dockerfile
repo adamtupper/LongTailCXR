@@ -25,11 +25,11 @@ USER $USERNAME
 # Create workspace directory
 RUN mkdir -p /home/$USERNAME/workspace/
 
-# Install Python 3.10 and non-Python dependencies
+# Install Python 3.10 and non-Python dependencies (for OpenCV)
 RUN sudo apt-get install -y software-properties-common net-tools
 RUN sudo add-apt-repository ppa:deadsnakes/ppa
 RUN sudo apt-get install -y python3.10 python3.10-venv python3.10-dev python3.10-distutils binfmt-support python3-pip
-RUN sudo apt-get install -y git
+RUN sudo apt-get install -y git ffmpeg libsm6 libxext6
 
 # Install virtualenv
 RUN pip3 install virtualenv
