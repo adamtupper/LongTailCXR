@@ -115,7 +115,7 @@ def bal_mixup_train(model, device, loss_fxn, optimizer, data_loader, history, ep
     current_metrics = pd.DataFrame([[epoch, 'train', running_loss / (i + 1), b_acc, mcc, auc]], columns=history.columns)
     current_metrics.to_csv(os.path.join(model_dir, 'history.csv'), mode='a', header=False, index=False)
 
-    return history.append(current_metrics)
+    return pd.concat([history, current_metrics], ignore_index=True)
 
 def train(model, device, loss_fxn, optimizer, data_loader, history, epoch, model_dir, classes, mixup, mixup_alpha):
     """Train PyTorch model for one epoch on NIH ChestXRay14 dataset.
@@ -182,7 +182,7 @@ def train(model, device, loss_fxn, optimizer, data_loader, history, epoch, model
     current_metrics = pd.DataFrame([[epoch, 'train', running_loss / (i + 1), b_acc, mcc, auc]], columns=history.columns)
     current_metrics.to_csv(os.path.join(model_dir, 'history.csv'), mode='a', header=False, index=False)
 
-    return history.append(current_metrics)
+    return pd.concat([history, current_metrics], ignore_index=True)
 
 def validate(model, device, loss_fxn, optimizer, data_loader, history, epoch, model_dir, early_stopping_dict, best_model_wts, classes):
     """Evaluate PyTorch model on validation set of NIH ChestXRay14 dataset.
@@ -266,7 +266,7 @@ def validate(model, device, loss_fxn, optimizer, data_loader, history, epoch, mo
         print(f'--- EARLY STOPPING: Accuracy has not improved from {round(early_stopping_dict["best_acc"], 3)} ---')
         early_stopping_dict['epochs_no_improve'] += 1
 
-    return history.append(current_metrics), early_stopping_dict, best_model_wts
+    return pd.concat([history, current_metrics], ignore_index=True), early_stopping_dict, best_model_wts
 
 
 def evaluate(model, device, loss_fxn, dataset, split, batch_size, history, model_dir, weights):
