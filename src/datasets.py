@@ -19,7 +19,7 @@ class NIH_CXR_Dataset(torch.utils.data.Dataset):
             'Subcutaneous Emphysema', 'Pneumomediastinum'
         ]
 
-        self.label_df = pd.read_csv(os.path.join(label_dir, f'nih-lt_single-label_{split}.csv'))
+        self.label_df = pd.read_csv(os.path.join(label_dir, f'nih-cxr-lt_single-label_{split}.csv'))
 
         self.img_paths = self.label_df['id'].apply(lambda x: os.path.join(data_dir, x)).values.tolist()
         self.labels = self.label_df[self.CLASSES].idxmax(axis=1).apply(lambda x: self.CLASSES.index(x)).values
@@ -94,6 +94,7 @@ class MIMIC_CXR_Dataset(torch.utils.data.Dataset):
 
     def __getitem__(self, idx):
         x = cv2.imread(self.img_paths[idx])
+        print(self.img_paths[idx])
         x = cv2.resize(x, (256, 256), interpolation=cv2.INTER_AREA)
         x = self.transform(x)
 
