@@ -2,4 +2,4 @@
 *.pyc
 
 # Results
-history.csv
+nih_results/
