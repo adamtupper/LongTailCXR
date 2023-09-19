@@ -10,6 +10,9 @@ ENV PATH="${PATH}:/home/${USERNAME}/.local/bin"
 ENV TZ=Canada/Eastern
 RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
 
+# Erase (potentially) outdated package list
+RUN touch /etc/apt/sources.list
+
 # Create the user
 RUN groupadd --gid $USER_GID $USERNAME \
     && useradd --uid $USER_UID --gid $USER_GID -m $USERNAME \
